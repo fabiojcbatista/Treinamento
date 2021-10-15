@@ -1,7 +1,7 @@
 import {MongoClient, ObjectId} from 'mongodb';
 import { Pessoa } from './pessoa';
 
-const uri = 'mongodb+srv://dbUser:kil,ji8oku@cluster0.wszic.mongodb.net/meubd?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://fabiojcb:<password>@cluster0.apwsc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const cliente = new MongoClient(uri);
 
 async function main(){
