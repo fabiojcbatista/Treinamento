@@ -1,0 +1,33 @@
+{
+  "name": "Treinamento",
+  "version": "1.0.0",
+  "description": "Treinamento DBServer - TypeScript(Nodejs, React)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts",
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabiojcbatista/Treinamento.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabiojcbatista/Treinamento/issues"
+  },
+  "homepage": "https://github.com/fabiojcbatista/Treinamento#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.10.3",
+    "nodemon": "^2.0.13",
+    "ts-node": "^10.3.0",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
