@@ -10,15 +10,17 @@ function App() {
 
   const insert = () => {
     //console.log(values);
-        
-    Axios.post('http://localhost:3000/insert', {
+   
+    Axios.get(`http://localhost:3000/insert/`, { params: {
       nome: nome,
       cost: cost,
-      category: category,
-    });
+      category: category
+    }});
     //.then((response) => {
       //console.log(response);
     //});
+
+    
   };
 
   return (

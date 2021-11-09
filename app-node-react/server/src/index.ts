@@ -1,38 +1,72 @@
 import { connect, disconnect } from 'mongoose';
 import { ProdutoModel } from './produto';
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import cors from 'cors';
+import bodyparser, {json} from 'body-parser';
+import dotenv from 'dotenv';
+import morgan from 'morgan';
 
-const app = express();
-app.use(express.json());
-app.use(cors());
-const port = 3000;
-const url = 'mongodb+srv://fabio:2010@cluster0.u9ema.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-//const url = 'mongodb://localhost:27017';
-//mongodb+srv://alunos:alunos@cluster0-XXXXX.azure.mongodb.net/test?retryWrites=true&w=m
-
+import { MongoParseError } from 'mongoose/node_modules/mongodb';
 async function main(){
 
     try{
+        const app = express();
+        app.use(express.json());
+        app.use(cors());
+        app.use(morgan('tiny'));
+        app.use(bodyparser.urlencoded({extended:true}));
+        
+        dotenv.config({path:'.env'});
+        const port = process.env.port || 8080;
+
+        
+        const url = 'mongodb+srv://fabio:2010@cluster0.u9ema.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+        //const url = 'mongodb://localhost:27017';
+        //mongodb+srv://alunos:alunos@cluster0-XXXXX.azure.mongodb.net/test?retryWrites=true&w=m
+
          await connect(url);
          console.log('Conectado!');
+         app.use(json());
          app.listen(port, ()=>{
             console.log(`Servidor na porta ${port}`);
         })
         
-         app.get("/insert", async (req, res)=>{
-            const values = {
-               nome: req.body.nome, 
-               cost: req.body.cost,
-               category: req.body.category
-            };
+         app.get("/insert/", async (req, res)=>{
+            
             //const Produto = new ProdutoModel(values);
             //await Produto.save();
-             const doc = await ProdutoModel.create(values);
+             const doc = await ProdutoModel.create({
+                nome: req.query.nome, 
+                cost: req.query.cost,
+                category: req.query.category
+             });
+
+             
+         console.log('Inserido!');
+         console.log(doc);
              //await disconnect();
              //console.log('Desconectado do mongodb Atlas!');
+             res.send(`Inserção Produto: Nome: ${req.body.nome}, Cost: ${req.body.cost}, Category: ${req.body.category}`)
          });
 
+
+         app.get("/", async (req, res)=>{
+            
+            //const Produto = new ProdutoModel(values);
+            //await Produto.save();
+             const doc = await ProdutoModel.create({
+                nome: req.body.nome.toString(), 
+                cost: parseInt(req.body.cost),
+                category: req.body.category.toString()
+             });
+
+             
+         console.log('Inserido!');
+         console.log(doc);
+             //await disconnect();
+             //console.log('Desconectado do mongodb Atlas!');
+             res.send(`Inserção Produto /: Nome: ${req.body.nome}, Cost: ${req.body.cost}, Category: ${req.body.category}`)
+         });
          
          
          /*
@@ -78,13 +112,15 @@ async function main(){
              console.log(documentoRemovido);
 
          }
-        */
+        
 
 
 
          app.listen(port, ()=>{
              console.log(`Servidor na porta ${port}`);
          })
+
+         */
 
     }catch(error){
         console.log('Falha de acesso!');
